@@ -8,12 +8,16 @@ app.get('/', async (req, res) => {
     const browser = await puppeteer.launch({headless:true})
     const page = await browser.newPage()
 
-    await page.goto('https://google.com/')
-    await page.waitForSelector('#SIvCob')
+    try {
+        await page.goto('https://google.com/')
+        await page.waitForSelector('#SIvCob')
 
     const text = await page.$eval('#SIvCob', elem => elem.textContent)
     res.send(text)
     await browser.close()
+    } catch (error) {
+        console.log(error)
+    }
 
 })
 
